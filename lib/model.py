@@ -94,7 +94,7 @@ class DependencyParser(models.Model):
         self.embeddings = tf.Variable(tf.random.truncated_normal(shape = [self.vocab_size, self.embedding_dim], stddev = 0.1))
         self.w1_weights = tf.Variable(tf.random.truncated_normal(shape = [self.num_tokens*self.embedding_dim, self.hidden_dim], stddev = 0.1))
         self.biases = tf.Variable(tf.zeros(shape = [1, self.hidden_dim]))
-        self.w2_weights = tf.Variable(tf.random.truncated_normal(shape = [self.hidden_dim, self.num_transitions], stddev = 0.1))
+        self.w2_weights = tf.Variable(tf.random.truncated_normal(shape = [self.hidden_dim, self.num_transitions], stddev = 0.0001))
 
         # TODO(Students) End
 
@@ -167,7 +167,7 @@ class DependencyParser(models.Model):
 
         mask_greedy = tf.cast((labels == 1), dtype = "float32")
         masked_greedy_labels = labels*mask_greedy
-        loss = -1*tf.reduce_mean(tf.math.log(tf.reduce_sum(t1*masked_greedy_labels)))
+        loss = -1*tf.reduce_mean(tf.math.log(tf.reduce_sum(t1*masked_greedy_labels,axis=1)))
 
         l1 = tf.nn.l2_loss(self.w1_weights)
         l2 = tf.nn.l2_loss(self.w2_weights)
