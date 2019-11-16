@@ -78,6 +78,8 @@ class DependencyParser(models.Model):
             self._activation = tf.keras.activations.sigmoid
         elif activation_name == "tanh":
             self._activation = tf.keras.activations.tanh
+        elif activation_name == "relu":
+            self._activation = tf.keras.activations.relu
         else:
             raise Exception(f"activation_name: {activation_name} is from the known list.")
 
@@ -129,7 +131,6 @@ class DependencyParser(models.Model):
         """
         # TODO(Students) Start
         embeddings = tf.nn.embedding_lookup(self.embeddings, inputs)
-
         embeddings = tf.reshape(embeddings, shape = [embeddings.shape[0], embeddings.shape[1]*embeddings.shape[2]])
         
         wx = tf.matmul(embeddings, self.w1_weights)
@@ -169,13 +170,25 @@ class DependencyParser(models.Model):
         masked_greedy_labels = labels*mask_greedy
         loss = -1*tf.reduce_mean(tf.math.log(tf.reduce_sum(t1*masked_greedy_labels,axis=1)))
 
-        l1 = tf.nn.l2_loss(self.w1_weights)
-        l2 = tf.nn.l2_loss(self.w2_weights)
-        l3 = tf.nn.l2_loss(self.biases)
-        l4 = tf.nn.l2_loss(self.embeddings)
+        if self.trainable_embeddings == True:
+            print("**********************************")
+            print("Tunable embeddings is turned on")
 
-        regularization = self._regularization_lambda*(l1 + l2 + l3 + l4)
+            l1 = tf.nn.l2_loss(self.w1_weights)
+            l2 = tf.nn.l2_loss(self.w2_weights)
+            l3 = tf.nn.l2_loss(self.biases)
+            l4 = tf.nn.l2_loss(self.embeddings)
 
+
+            regularization = self._regularization_lambda*(l1 + l2 + l3 + l4)
+        else:
+            print("**********************************")
+            print("Tunable embeddings is turned off")
+            l1 = tf.nn.l2_loss(self.w1_weights)
+            l2 = tf.nn.l2_loss(self.w2_weights)
+            l3 = tf.nn.l2_loss(self.biases)
+
+            regularization = self._regularization_lambda*(l1 + l2 + l3)
 
 
 

@@ -2,32 +2,32 @@
 
 # Base Configuration:
 
-python train.py data/train.conll \
-                data/dev.conll \
-                --pretrained-embedding-file data/glove.6B.50d.txt \
-                --cache-processed-data \
-                --experiment-name basic
+# python train.py data/train.conll \
+#                 data/dev.conll \
+#                 --pretrained-embedding-file data/glove.6B.50d.txt \
+#                 --cache-processed-data \
+#                 --experiment-name basic
 
-# Tanh and Sigmoid Activations
-python train.py data/train.conll \
-                data/dev.conll \
-                --use-cached-data \
-                --pretrained-embedding-file data/glove.6B.50d.txt \
-                --activation-name tanh \
-                --experiment-name tanh
+# # Tanh and Sigmoid Activations
+# python train.py data/train.conll \
+#                 data/dev.conll \
+#                 --use-cached-data \
+#                 --pretrained-embedding-file data/glove.6B.50d.txt \
+#                 --activation-name tanh \
+#                 --experiment-name tanh
 
-python train.py data/train.conll \
-                data/dev.conll \
-                --use-cached-data \
-                --pretrained-embedding-file data/glove.6B.50d.txt \
-                --activation-name sigmoid \
-                --experiment-name sigmoid
+# python train.py data/train.conll \
+#                 data/dev.conll \
+#                 --use-cached-data \
+#                 --pretrained-embedding-file data/glove.6B.50d.txt \
+#                 --activation-name sigmoid \
+#                 --experiment-name sigmoid
 
-# Without Pretrained embeddings
-python train.py data/train.conll \
-                data/dev.conll \
-                --use-cached-data \
-                --experiment-name wo_glove
+# # Without Pretrained embeddings
+# python train.py data/train.conll \
+#                 data/dev.conll \
+#                 --use-cached-data \
+#                 --experiment-name wo_glove
 
 # Without tunable embeddings
 python train.py data/train.conll \
@@ -36,6 +36,17 @@ python train.py data/train.conll \
                 --use-cached-data \
                 --trainable-embeddings \
                 --experiment-name wo_emb_tune
+
+
+
+# Relu Activations
+# python train.py data/train.conll \
+#                 data/dev.conll \
+#                 --pretrained-embedding-file data/glove.6B.50d.txt \
+#                 --activation-name relu \
+#                 --experiment-name relu
+
+
 
 # NOTE:
 #
